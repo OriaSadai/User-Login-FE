@@ -9,7 +9,7 @@ function Login() {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [user, setUser] = useState("");
+    const [username, setUsername] = useState("");
     const [pwd, setPwd] = useState("");
 
     const [errMsg, setErrMsg] = useState("");
@@ -21,19 +21,19 @@ function Login() {
 
     useEffect(() => {
         setErrMsg("");
-    }, [user, pwd]);
+    }, [username, pwd]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
             const userBody = {
-                username: user,
-                password: pwd,
-            };
-            const response = await authenticate(userBody);
+                username: username,
+                password: pwd
+            }
+            const res = await authenticate(userBody);
             setSuccess(true);
-            setAuth(response.data.jwt)
-            setUser("");
+            setAuth(res.data.jwt)
+            setUsername("");
             setPwd("");
         } catch (err) {
             if (!err.response) {
@@ -70,19 +70,19 @@ function Login() {
                             id="username"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            onChange={(event) => setUsername(event.target.value)}
+                            value={username}
                             required
                         />
                         <label htmlFor="password">Password:</label>
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
+                            onChange={(event) => setPwd(event.target.value)}
                             value={pwd}
                             required
                         />
-                        <button type="submit" disabled={!user || !pwd}>
+                        <button type="submit" disabled={!username || !pwd}>
                             Sign In
                         </button>
                     </form>

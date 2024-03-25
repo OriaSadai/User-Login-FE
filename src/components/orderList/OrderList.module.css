@@ -1,0 +1,21 @@
+.order__container {    
+    max-width: 80%;
+    margin: auto;
+}
+
+.order__list {
+    list-style: none;
+    display: inline;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.order__list__fallback {
+    color: white;
+    text-align: center;
+}
+
+.order__button button {
+    background-color: #006600;
+    float: right;
+}

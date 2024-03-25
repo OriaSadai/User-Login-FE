@@ -6,11 +6,11 @@
 
 html {
   font-family: 'Nunito', sans-serif;
-  font-size: 22px;
-  color: #fff;
+  font-size: 1.5rem;
+  color: #006600;
 }
 
 body {
   min-height: 100vh;
-  background-color: dodgerblue;
+  background-color: rgba(80, 250, 70, 0.2);
 }

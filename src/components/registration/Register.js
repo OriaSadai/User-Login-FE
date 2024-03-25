@@ -6,6 +6,7 @@ import classes from "./Register.module.css";
 import {createNewUser} from "../../services/api";
 import {Link} from "react-router-dom";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -16,8 +17,15 @@ const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [user, setUser] = useState('');
-    const [validName, setValidName] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
+
+    const [username, setUsername] = useState('');
+    const [validUsername, setValidUsername] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
@@ -34,45 +42,58 @@ const Register = () => {
     // when component load we set the focus on the userInput top be on
     useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, []);
 
+    useEffect(() => {
+        setValidEmail(EMAIL_REGEX.test(email));
+    }, [email]);
 
     // every time the user state change we want to validate the user input with the regex
     useEffect(() => {
-        setValidName(USER_REGEX.test(user));
-    }, [user])
+        setValidUsername(USER_REGEX.test(username));
+    }, [username]);
 
     // every time the password or the match password change we want to validate the password with the regex
     // and validate that the matched password is indeed match the password
     useEffect(() => {
         setValidPwd(PWD_REGEX.test(pwd));
         setValidMatch(pwd === matchPwd);
-    }, [pwd, matchPwd])
+    }, [pwd, matchPwd]);
 
     // every time we change any input we don't want to show error massege
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd])
+    }, [username, pwd, matchPwd]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         // if button enabled with JS hack
-        const v1 = USER_REGEX.test(user);
-        const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2) {
+        const emailValidation = EMAIL_REGEX.test(email)
+        const usernameValidation = USER_REGEX.test(username);
+        const pwsValidation = PWD_REGEX.test(pwd);
+        if (!emailValidation || !usernameValidation || !pwsValidation) {
             setErrMsg("Invalid Entry");
             return;
         }
         try {
             const newUserBody = {
-                username: user,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phoneNumber,
+                address: address,
+                username: username,
                 password: pwd
             }
-            const response = await createNewUser(newUserBody);
+            const res = await createNewUser(newUserBody);
             setSuccess(true);
 
             //clear state and controlled inputs
-            setUser('');
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+            setAddress('');
+            setUsername('');
             setPwd('');
             setMatchPwd('');
         } catch (err) {
@@ -101,25 +122,52 @@ const Register = () => {
                     <p ref={errRef} className={errMsg ? classes.errmsg : classes.offscreen}>{errMsg}</p>
                     <h1>Register</h1>
                     <form onSubmit={handleSubmit}>
+                        <label htmlFor="firstName">First name:</label>
+                        <input type="text" id="firstName" autoComplete="off" onChange={(event) => setFirstName(event.target.value)} value={firstName} required />
+                        <label htmlFor="lastName">Last name:</label>
+                        <input type="text" id="lastName" autoComplete="off" onChange={(event) => setLastName(event.target.value)} value={lastName} required />
+                        <label htmlFor="email">
+                            Email:
+                            <FontAwesomeIcon icon={faCheck} className={validEmail ? classes.valid : classes.hide} />
+                            <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? classes.hide : classes.invalid} />
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            autoComplete="off"
+                            onChange={(event) => setEmail(event.target.value)}
+                            value={email}
+                            required
+                            onFocus={() => setUserFocus(true)}
+                            onBlur={() => setUserFocus(false)}
+                        />
+                        <p id="emailnote" className={userFocus && email && !validEmail ? classes.instructions : classes.offscreen}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Legel email is with '@' and '.' !
+                        </p>
+                        <label htmlFor="tel">Phone number:</label>
+                        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="tel" autoComplete="off" onChange={(event) => setPhoneNumber(event.target.value)} value={phoneNumber} required />
+                        <label htmlFor="address">Address:</label>
+                        <input type="text" id="address" autoComplete="off" onChange={(event) => setAddress(event.target.value)} value={address} required />
                         <label htmlFor="username">
                             Username:
-                            <FontAwesomeIcon icon={faCheck} className={validName ? classes.valid : classes.hide} />
-                            <FontAwesomeIcon icon={faTimes} className={validName || !user ? classes.hide : classes.invalid} />
+                            <FontAwesomeIcon icon={faCheck} className={validUsername ? classes.valid : classes.hide} />
+                            <FontAwesomeIcon icon={faTimes} className={validUsername || !username ? classes.hide : classes.invalid} />
                         </label>
                         <input
                             type="text"
                             id="username"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            onChange={(event) => setUsername(event.target.value)}
+                            value={username}
                             required
                             // when user focus on the input we want to set the userFocus to true
                             onFocus={() => setUserFocus(true)}
                             // when user leave the input (blur) we want to set the userFocus to false
                             onBlur={() => setUserFocus(false)}
                         />
-                        <p id="uidnote" className={userFocus && user && !validName ? classes.instructions : classes.offscreen}>
+                        <p id="uidnote" className={userFocus && username && !validUsername ? classes.instructions : classes.offscreen}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4 to 24 characters.<br />
                             Must begin with a letter.<br />
@@ -133,7 +181,7 @@ const Register = () => {
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
+                            onChange={(event) => setPwd(event.target.value)}
                             value={pwd}
                             required
                             onFocus={() => setPwdFocus(true)}
@@ -146,7 +194,6 @@ const Register = () => {
                             Allowed special characters: <span>!</span> <span aria-label="at symbol">@</span> <span>#</span> <span>$</span> <span>%</span>
                         </p>
 
-
                         <label htmlFor="confirm_pwd">
                             Confirm Password:
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? classes.valid : classes.hide} />
@@ -155,7 +202,7 @@ const Register = () => {
                         <input
                             type="password"
                             id="confirm_pwd"
-                            onChange={(e) => setMatchPwd(e.target.value)}
+                            onChange={(event) => setMatchPwd(event.target.value)}
                             value={matchPwd}
                             required
                             onFocus={() => setMatchFocus(true)}
@@ -166,7 +213,8 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                        <button disabled={!validUsername || !validPwd || !validMatch ? true : false}>Sign Up</button>
+
                     </form>
                     <p>
                         Already registered?<br />
@@ -181,4 +229,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default Register;

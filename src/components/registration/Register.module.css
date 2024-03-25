@@ -24,11 +24,13 @@ a, a:visited {
 
 input[type="text"],
 input[type="password"],
+input[type="email"],
+input[type="tel"],
 button,
 textarea {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
-    padding: 0.25rem;
+    padding: 0.3rem;
     border-radius: 0.5rem;
 }
 

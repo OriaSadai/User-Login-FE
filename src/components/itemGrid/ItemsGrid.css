@@ -1,0 +1,9 @@
+.items__grid {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    height: 20rem;
+    max-width: 80%;
+    margin: auto;
+    
+}
