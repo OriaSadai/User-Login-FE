@@ -4,6 +4,8 @@ import ItemInOrderList from "./ItemInOrderList";
 import AuthContext, { AuthProvider } from "../context/AuthProvider";
 import OrderListContext from "../context/OrderListContext";
 import OrderModal from "./OrderModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 
 function OrderList() {
   const { orderList, setOrderList } = useContext(OrderListContext);
@@ -43,7 +45,7 @@ function OrderList() {
           </ul>
           <br />
           <div className={classes.order__button}>
-            <p>All in total: {totalOrderPrice}</p>
+            <p>All in total: <FontAwesomeIcon icon={faDollarSign} style={{ color: "#2B6D0A"}} />{totalOrderPrice}</p>
             <button onClick={() => setIsModalOpen(true)}>Order</button>
           </div>
         </div>

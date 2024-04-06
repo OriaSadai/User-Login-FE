@@ -11,13 +11,15 @@ import FavoriteList from "./components/favoriteList/FavoriteList";
 import { OrderListProvider } from "./components/context/OrderListContext";
 
 function App() {
+  const [ itemList, setItemList ] = useState([]);
+
   return (
     <>
       <AuthProvider>
         <OrderListProvider>
-          <Navbar />
+          <Navbar setItemList={setItemList} />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home itemList={itemList} setItemList={setItemList} />} />
             <Route path="/item/:id" element={<ItemPage />} />
             <Route path="/favorite" element={<FavoriteList />} />
             <Route path="/order" element={<OrderList />} />

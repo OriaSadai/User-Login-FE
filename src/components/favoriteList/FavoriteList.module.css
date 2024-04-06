@@ -1,16 +1,4 @@
-.fav__container {
+.fav__message {
     max-width: 80%;
     margin: auto;
-}
-
-.fav__List {
-    list-style: none;
-    display: inline;
-    justify-content: space-between;
-    padding: 0;    
-}
-
-.fav__list__fallback {
-    color: white;
-    text-align: center;
 }

@@ -21,7 +21,23 @@
     float: right;
 }
 
+.bottonContainer button {
+    background-color: rgba(67, 169, 21, 0.45);    
+    border: 2px solid #2B6D0A;
+    border-radius: 1rem;
+    margin-left: 1px;
+    font-family: cursive;
+}
+
+.bottonContainer button:hover {
+    box-shadow: 1px 1px 10px green;
+}
+
 .in__stock {
     color: red;
     size: 0.5rem;
+}
+
+.clickable {
+    cursor: pointer;
 }

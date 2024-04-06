@@ -1,5 +1,5 @@
 .order__container {    
-    max-width: 80%;
+    max-width: 90%;
     margin: auto;
 }
 
@@ -15,7 +15,24 @@
     text-align: center;
 }
 
+.order__button {
+    display: flex;
+    justify-content: space-between;
+    align-self: flex;
+    width: 100%;
+}
+
 .order__button button {
-    background-color: #006600;
-    float: right;
+    background-color: rgba(67, 169, 21, 0.45);
+    color: #2B6D0A;
+    border: 2px solid #2B6D0A;
+    border-radius: 1rem;
+    margin-left: 1px;
+    font-size: larger;
+    font-weight: bold;
+    font-family: cursive;
+}
+
+.order__button button:hover {
+    box-shadow: 1px 1px 10px green;
 }

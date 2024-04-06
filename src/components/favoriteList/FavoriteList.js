@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import classes from './FavoriteList.module.css';
-import ItemInFavoriteList from "./ItemInFavoriteList";
 import AuthContext, {AuthProvider} from "../context/AuthProvider";
 import { getFavoriteItems } from "../../services/api";
+import ItemsGrid from "../itemGrid/ItemsGrid";
 
 function FavoriteList () {
 
@@ -16,24 +16,17 @@ function FavoriteList () {
                 setFavoriteList(res.data);
             });
         }
-    }, []);
-
-    const changeQuantity = () => {
-        console.log("change quantity");
-    }    
+    }, []);   
 
     return (
-        <div className={classes.fav__container}>
+        <div>
             { !(Object.keys(authContext["auth"]).length > 0) ?
-            <p>You have to log in first!</p> : !(favoriteList.length > 0) ?
-            <p>No items selected to your favorite list yet!</p> :
-            <ul className={classes.fav__list}>
-                {favoriteList.map(item =>                
-                    (<ItemInFavoriteList key={item.id} item={item} onChangeQuantity={changeQuantity} />)
-                )}
-            </ul> }
+            <p className={classes.fav__message} >You have to log in first!</p> : !(favoriteList.length > 0) ?
+            <p className={classes.fav__message} >No items selected to your favorite list yet!</p> :
+            <ItemsGrid items={favoriteList}></ItemsGrid>
+            }
         </div>
-    )
+    );
 
 }
 

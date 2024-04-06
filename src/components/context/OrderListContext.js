@@ -6,7 +6,7 @@ export const OrderListProvider = ({ children }) => {
     const [ orderList, setOrderList ] = useState([]);
 
     const addToCartHandler = (item, qnt) => {
-        const isItemExist = orderList.some((currentItem) => currentItem.id === item.id)
+        const isItemExist = orderList.some((currentItem) => currentItem.id === item.id);
         if(!qnt) return;
         if(!isItemExist) {
             const newOrderList = [...orderList,{...item,qnt}]
