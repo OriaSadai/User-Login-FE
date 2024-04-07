@@ -5,12 +5,14 @@
 }
 
 html {
+  margin-top: 1rem;
   font-family: 'Nunito', sans-serif;
   font-size: 1.5rem;
   color: #006600;
 }
 
 body {
+  margin-top: 1rem;
   min-height: 100vh;
   background-color: rgba(80, 250, 70, 0.2);
 }

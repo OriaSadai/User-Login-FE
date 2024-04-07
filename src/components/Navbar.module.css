@@ -1,13 +1,16 @@
 .nav {
     background-color: #006600;
     color: rgba(200, 250, 200, 0.5);
-    display: flex;
+    display:inline-flex;
+    position:fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     justify-content: space-between;
     align-items: stretch;
     gap: 1rem;
-    padding: 1 1rem;
-    padding: 8px 0;
-    border-bottom: red;
+    border-bottom: 1px double #009900;
 }
 
 .siteTitle {
@@ -19,10 +22,10 @@
 }
 
 .search__bar__wrap {
-    width: 30%;
-    /* position: absolute; */
+    width: 25%;
+    position: absolute;
     top: 50%;
-    left: 50%;
+    left: 40%;
     transform: translate(-50%, -50%);
 }
 
@@ -49,6 +52,7 @@
 }
 
 .search__bar button {
+    margin-top: 0;
     width: 40px;
     height: 36px;
     border: 1px solid #009900;
@@ -56,7 +60,7 @@
     text-align: center;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 0.9em;
     display: flex;
     align-items: center;
     justify-content: center;

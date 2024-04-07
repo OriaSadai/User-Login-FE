@@ -1,5 +1,5 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
-import React, { useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import classes from "./Navbar.module.css";
 import AuthContext, { AuthProvider } from "./context/AuthProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,6 +23,10 @@ function Navbar({setItemList}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (searchInput) {
+      console.log("search value is " + searchInput);
+      return;
+    }
     
     getAllItemsByName({ searchTerm }).then((res) => {
       console.log(JSON.stringify(res.data));
@@ -33,11 +37,17 @@ function Navbar({setItemList}) {
     setAuth("");
     setOrderList([]);
   };
+  
+  const handleSearch = () => {
 
- const handleSearch = () => {
+    if (searchInput) {
+      console.log("search value is " + searchInput);
+      return;
+    }
+    
     if (Object.keys(authContext["auth"]).length > 0) {
-        getAllItemsByNameAuthenticate((searchInput),{
-        Authorization: "Bearer " + authContext["auth"],
+      getAllItemsByNameAuthenticate((searchInput),{
+        Authorization: "Bearer " + authContext["auth"]
       }).then(async (res) => {
         let items = res.data.map(item => {
           let itemName = normalizeItemName(item.name);
@@ -46,31 +56,30 @@ function Navbar({setItemList}) {
         setItemList(items);
       });
     } else {
-        getAllItemsByName(searchInput).then(async (res) => {
-          let items = res.data.map(item => {
-            let itemName = normalizeItemName(item.name);
-            return ({ ...item, displayName: itemName});
-          });
-          setItemList(items);
+      getAllItemsByName(searchInput).then(async (res) => {
+        let items = res.data.map(item => {
+          let itemName = normalizeItemName(item.name);
+          return ({ ...item, displayName: itemName});
         });
+        setItemList(items);
+      });
     }
- }
-
-
+  }
+  
   return (
     <nav className={classes.nav}>
       <Link to="/" className={classes.siteTitle}>
         &nbsp; SSF &nbsp;<img src="../../logo.png"></img>
       </Link>
 
-      <div className={classes.search__bar__wrab}>
+      <hl className={classes.search__bar__wrap}>
         <div className={classes.search__bar}>
           <input type="text" placeholder="search..." onChange={(event) => setSearchInput(event.target.value.toLocaleLowerCase())}/>
           <button onClick={handleSearch}>
             <FontAwesomeIcon icon={faSearch} style={{ color: "#266d18" }} />
           </button>
         </div>
-      </div>
+      </hl>
 
       {auth ? (
         <ul>
