@@ -23,8 +23,7 @@ function Navbar({setItemList}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (searchInput) {
-      console.log("search value is " + searchInput);
+    if (!searchInput) {
       return;
     }
     
@@ -40,8 +39,7 @@ function Navbar({setItemList}) {
   
   const handleSearch = () => {
 
-    if (searchInput) {
-      console.log("search value is " + searchInput);
+    if (!searchInput) {
       return;
     }
     
